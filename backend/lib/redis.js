@@ -1,6 +1,11 @@
-import Redis from "ioredis";
-import dotenv from "dotenv";
+// backend/lib/redis.js
 
-dotenv.config();
+// Ми створюємо "фейковий" клієнт, щоб не ламати імпорти в інших файлах.
+// Методи get/set просто повертають пустоту, не звертаючись до бази даних.
 
-export const redis = new Redis(process.env.UPSTASH_REDIS_URL);
+export const redis = {
+  get: async (key) => null,        // Завжди кажемо: "тут нічого немає"
+  set: async (key, value) => "OK", // Завжди кажемо: "я зберіг" (насправді ні)
+  del: async (key) => 1,           // Завжди кажемо: "я видалив"
+  exists: async (key) => 0         // Завжди кажемо: "ключа не існує"
+};
